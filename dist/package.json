@@ -1,0 +1,13 @@
+{
+  "name": "@worplo/react-utils",
+  "version": "1.0.0",
+  "description": "A Simple Utilities for React",
+  "main": "./lib/index.js",
+  "repository": "https://github.com/Worplo/react-utils",
+  "author": "p-sw <shinwoo.park@psw.kr>",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}

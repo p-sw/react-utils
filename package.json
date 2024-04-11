@@ -1,0 +1,22 @@
+{
+  "name": "react-utils",
+  "version": "0.0.0",
+  "main": "./lib/index.js",
+  "repository": "https://github.com/Worplo/react-utils",
+  "author": "p-sw <shinwoo.park@psw.kr>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/react": "^18.2.75",
+    "@types/react-dom": "^18.2.24",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "scripts": {
+    "build": "rimraf ./dist/lib && tsc",
+    "up": "yarn publish dist"
+  }
+}
