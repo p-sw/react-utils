@@ -17,6 +17,7 @@
   },
   "scripts": {
     "build": "rimraf ./dist/lib && tsc",
-    "up": "yarn publish dist"
+    "up": "yarn publish dist",
+    "docs": "rimraf ./dist/README.md && ln ./README.md ./dist/README.md"
   }
 }
