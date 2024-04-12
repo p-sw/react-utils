@@ -47,3 +47,10 @@ function ClientComponent() {
 ## Functional Components
 
 ## Utilities
+
+### isPromise
+
+```ts
+isPromise(new Promise(() => {})) // true
+isPromise(() => {}) // false
+```
