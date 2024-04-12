@@ -1,4 +1,5 @@
 import {useState, useTransition} from "react";
+import { isPromise } from "../utils";
 
 type FLoader<R> = () => R
 
@@ -25,9 +26,7 @@ export function useLoadedState<R, K extends boolean = true>(loader: FLoader<R>, 
       setState(undefined);
     startLoad(() => {
       const result: R = loader()
-      if (loader.constructor.name === 'AsyncFunction' || (result && typeof result === 'object' && (<{
-        then?: () => void
-      }>result)["then"] && typeof (<{ then?: () => void }>result)["then"] === 'function')) {
+      if (isPromise(loader)) {
         (<{ then: (c: (p: R) => void) => void }>result)['then']((p: R) => {
           setState(p);
         })
