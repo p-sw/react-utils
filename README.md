@@ -8,6 +8,7 @@
   * useLoadedState
 * Functional Components
 * Utilities
+  * isPromise
 
 # Features
 
