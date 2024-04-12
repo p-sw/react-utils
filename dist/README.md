@@ -7,7 +7,7 @@
 * Hooks
   * useLoadedState
 * Functional Components
-* Utility Functions
+* Utilities
 
 # Features
 
@@ -46,4 +46,4 @@ function ClientComponent() {
 
 ## Functional Components
 
-## Utility Functions
+## Utilities
