@@ -36,9 +36,25 @@ export function useLoadedState<R, K extends boolean = true>(loader: FLoader<R>, 
     })
   }
 
-  return <LoadedStateReturns<R, K>>[
-    isLoading,
-    state,
-    loadState
-  ]
+  if (defaultedOpt.keepPrevOnLoad) {
+    if (isLoading || !state) {
+      return [
+        true,
+        undefined,
+        loadState,
+      ]
+    } else {
+      return [
+        false,
+        state,
+        loadState,
+      ]
+    }
+  } else {
+    return <LoadedStateReturns<R, false>>[
+      isLoading,
+      state,
+      loadState,
+    ]
+  }
 }
