@@ -6,6 +6,7 @@
 
 * Hooks
   * useLoadedState
+  * useTransitioned
 * Functional Components
 * Utilities
   * isPromise
@@ -44,6 +45,25 @@ function ClientComponent() {
 > **Note**: keepPrevOnLoad가 false일 때는 isLoading이 false일 때 state가 로드되어 있음이 보장됨.  
 > keepPrevOnLoad가 true일 때는 isLoading의 여부와 상관 없이 state는 `Result | undefined`.
 
+
+### useTransitioned
+
+```tsx
+import { useTransitioned } from "@worplo/react-utils/hooks";
+import React from "react";
+
+function Component() {
+  function onSubmit(e: FormEvent<HTMLFormElement>) {
+    console.log(e);
+  }
+
+  const [ isSubmitting, startSubmit ] = useTransitioned(onSubmit);
+  
+  return <form onSubmit={startSubmit}>
+    {/* ... */}
+  </form>
+}
+```
 
 ## Functional Components
 
