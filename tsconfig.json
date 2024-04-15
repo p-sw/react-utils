@@ -6,7 +6,7 @@
     "outDir": "./dist/lib",
     "rootDir": "./src",
     "strict": true,
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "declaration": true,
     "jsx": "preserve",
