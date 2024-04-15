@@ -6,18 +6,20 @@
   "author": "p-sw <shinwoo.park@psw.kr>",
   "license": "MIT",
   "devDependencies": {
-    "@types/react": "^18.2.75",
-    "@types/react-dom": "^18.2.24",
+    "@types/node": "^20.12.7",
+    "@types/react": "18",
+    "@types/react-dom": "18",
     "rimraf": "^5.0.5",
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "next": "^14.2.1",
+    "react": "18",
+    "react-dom": "18"
   },
   "scripts": {
     "build": "rimraf ./dist/lib && tsc",
-    "up": "yarn publish dist",
+    "up": "yarn build && yarn publish dist",
     "docs": "rimraf ./dist/README.md && ln ./README.md ./dist/README.md"
   }
 }
