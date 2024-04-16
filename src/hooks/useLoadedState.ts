@@ -1,4 +1,4 @@
-import {useState, useTransition} from "react";
+import { useState, useTransition } from "react";
 import { isPromise } from "../utils";
 
 type FLoader<R> = () => R
