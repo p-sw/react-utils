@@ -1,4 +1,4 @@
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect } from "react";
 import { isPromise } from "../utils";
 
 type FLoader<R> = () => R
@@ -15,7 +15,7 @@ const defaultOption: UseLoadedStateOptions<true> = {
 
 type LoadedStateReturns<R, K extends boolean> = K extends true ? [boolean, R | undefined, () => void] : [true, undefined, () => void] | [false, R, () => void]
 
-export function useLoadedState<R, K extends boolean = true>(loader: FLoader<R>, opt?: PartialUseLoadedStateOptions<K>): LoadedStateReturns<R, K> {
+export function useLoadedState<R, K extends boolean = true>(loader: FLoader<R>, deps: React.DependencyList, opt?: PartialUseLoadedStateOptions<K>): LoadedStateReturns<R, K> {
   const defaultedOpt = (opt ?? defaultOption) as UseLoadedStateOptions<K>;
 
   const [state, setState] = useState<R | undefined>(undefined);
@@ -35,6 +35,10 @@ export function useLoadedState<R, K extends boolean = true>(loader: FLoader<R>, 
       }
     })
   }
+
+  useEffect(() => {
+    loadState();
+  }, deps);
 
   if (defaultedOpt.keepPrevOnLoad) {
     if (isLoading || !state) {
