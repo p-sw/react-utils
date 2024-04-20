@@ -8,6 +8,7 @@
   - useLoadedState
   - useTransitioned
   - useFormProvider
+  - useDialog
 - Functional Components
   - FormStatus
 - Utilities
@@ -136,6 +137,23 @@ function Form() {
       </button>
     </form>
   );
+}
+```
+
+### useDialog
+
+> WARNING: useDialog is not tested yet. Be careful when using it.
+
+```tsx
+import { useDialog } from "@worplo/react-utils/hooks";
+
+export function Page() {
+  const [
+    Dialog /* dialog 태그를 래핑한 컴포넌트 */,
+    { close, show /* 모든 컨트롤 함수들은 호출 가능 (undefined X) */ },
+  ] = useDialog();
+
+  return <Dialog></Dialog>;
 }
 ```
 
