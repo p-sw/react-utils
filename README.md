@@ -30,7 +30,7 @@ async function serverActionThatLoadsSomething() {
 function ClientComponent() {
   const [isLoading, state, triggerReload] = useLoadedState(async function loader() {
     return await serverActionThatLoadsSomething();
-  }, {
+  }, [ /* Dependency Array - it automatically reloads state when dependency changes */ ], {
     keepPrevOnLoad: false, // default: true
   })
 
