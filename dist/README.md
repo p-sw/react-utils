@@ -70,24 +70,44 @@ function Component() {
 
 ### useFormProvider
 
-> FormStatus 컴포넌트와 같이 사용해야 함. useFormStatus 훅을 form과 함께 쓸 수 있도록 하는 새로운 훅
+> FormStatus 컴포넌트와 같이 사용해야 함. useFormStatus & useActionState 훅을 form과 함께 쓸 수 있도록 하는 새로운 훅
 
 ```tsx
 import { FormStatus } from "@worplo/react-utils/fc";
 import { useFormProvider } from "@worplo/react-utils/hooks";
 
-function action() {
+interface FormState {
+  name: string;
+  email: string;
+}
+
+async function action(d: FormState): Promise<FormState> {
+  "use server";
   /* ... */
+  return d;
 }
 
 function Form() {
-  const [ formStatus, provide ] = useFormProvider();
-  
-  return <form action={action}>
-    <FormStatus provide={provide} />
-    {/* ... */}
-    <button type="submit" disabled={formStatus.pending} />
-  </form>
+  const [
+    formStatus /* result of useFormStatus - pending, data (FormData), method, action */,
+    provide /* set internal state for formStatus */,
+    submit /* submit function - wrapped with useActionState */,
+    result /* result of useActionState - ReturnType | null */,
+  ] = useFormProvider<FormState>((e: FormState, prev: FormState | null) => {
+    return action(e);
+  });
+
+  return (
+    <form action={submit}>
+      {result && <div>Submitted : {JSON.stringify(result)}</div>}
+      <FormStatus provide={provide} />
+      <input name="name" type="text" />
+      <input name="email" type="email" />
+      <button type="submit" disabled={formStatus.pending}>
+        {formStatus.pending ? "Loading..." : "Submit"}
+      </button>
+    </form>
+  );
 }
 ```
 
