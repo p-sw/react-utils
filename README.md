@@ -4,14 +4,14 @@
 
 ## Index
 
-* Hooks
-  * useLoadedState
-  * useTransitioned
-  * useFormProvider
-* Functional Components
-  * FormStatus
-* Utilities
-  * isPromise
+- Hooks
+  - useLoadedState
+  - useTransitioned
+  - useFormProvider
+- Functional Components
+  - FormStatus
+- Utilities
+  - isPromise
 
 # Features
 
@@ -33,10 +33,10 @@ function ClientComponent() {
   }, {
     keepPrevOnLoad: false, // default: true
   })
-  
+
   return <>
     {
-      isLoading 
+      isLoading
         ? <MdiLoading className={"animate-spin"} />
         : { state.map(() => <>{/*...*/}</>) }
     }
@@ -46,7 +46,6 @@ function ClientComponent() {
 
 > **Note**: keepPrevOnLoad가 false일 때는 isLoading이 false일 때 state가 로드되어 있음이 보장됨.  
 > keepPrevOnLoad가 true일 때는 isLoading의 여부와 상관 없이 state는 `Result | undefined`.
-
 
 ### useTransitioned
 
@@ -59,14 +58,11 @@ function Component() {
     console.log(e);
   }
 
-  const [ isSubmitting, startSubmit ] = useTransitioned(onSubmit);
-  
-  return <form onSubmit={startSubmit}>
-    {/* ... */}
-  </form>
+  const [isSubmitting, startSubmit] = useTransitioned(onSubmit);
+
+  return <form onSubmit={startSubmit}>{/* ... */}</form>;
 }
 ```
-
 
 ### useFormProvider
 
@@ -116,7 +112,7 @@ function Form() {
 ### FormStatus
 
 > useFormProvider 훅과 같이 사용해야 함.
-> 
+>
 > [useFormProvider](#useformprovider) 훅의 문서를 참조
 
 ## Utilities
@@ -124,6 +120,6 @@ function Form() {
 ### isPromise
 
 ```ts
-isPromise(new Promise(() => {})) // true
-isPromise(() => {}) // false
+isPromise(new Promise(() => {})); // true
+isPromise(() => {}); // false
 ```
