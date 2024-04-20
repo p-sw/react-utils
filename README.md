@@ -1,18 +1,18 @@
 # React Utils
 
-작고 간단한 유틸리티 패키지
+Small & Simple Utility Package
 
 ## Index
 
-- Hooks
-  - useLoadedState
-  - useTransitioned
-  - useFormProvider
-  - useDialog
-- Functional Components
-  - FormStatus
-- Utilities
-  - isPromise
+- [Hooks](#hooks)
+  - **[useLoadedState](#useLoadedState)** - useState with loading state
+  - **[useTransitioned](#useTransitioned)** - useTransition without defining another function
+  - **[useFormProvider](#useFormProvider)** - useFormState & useFormStatus without additional component
+  - **[useDialog](#useDialog)** - native dialog tag without ref and optional chain calling
+- [Functional Components](#functional-components)
+  - **[FormStatus](#FormStatus)** - used for useFormProvider to provide useFormStatus
+- [Utilities](#utilities)
+  - **[isPromise](#isPromise)** - check if value is promise or not
 
 # Features
 
@@ -161,9 +161,7 @@ export function Page() {
 
 ### FormStatus
 
-> useFormProvider 훅과 같이 사용해야 함.
->
-> [useFormProvider](#useformprovider) 훅의 문서를 참조
+> [useFormProvider](#useformprovider) 훅과 같이 사용해야 함.
 
 ## Utilities
 
