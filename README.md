@@ -68,6 +68,10 @@ function Component() {
 
 > FormStatus 컴포넌트와 같이 사용해야 함. useFormStatus & useActionState 훅을 form과 함께 쓸 수 있도록 하는 새로운 훅
 
+#### Without server action as parameter
+
+#### With server action as parameter
+
 ```tsx
 import { FormStatus } from "@worplo/react-utils/fc";
 import { useFormProvider } from "@worplo/react-utils/hooks";
