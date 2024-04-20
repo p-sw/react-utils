@@ -70,6 +70,34 @@ function Component() {
 
 #### Without server action as parameter
 
+```tsx
+import { FormStatus } from "@worplo/react-utils/fc";
+import { useFormProvider } from "@worplo/react-utils/hooks";
+
+interface FormState {
+  name: string;
+  email: string;
+}
+
+function Form() {
+  const [
+    formStatus /* result of useFormStatus - pending, data (FormData), method */,
+    provide /* set internal state for formStatus */,
+  ] = useFormProvider<FormState>();
+
+  return (
+    <form>
+      <FormStatus provide={provide} />
+      <input name="name" type="text" />
+      <input name="email" type="email" />
+      <button type="submit" disabled={formStatus.pending}>
+        {formStatus.pending ? "Loading..." : "Submit"}
+      </button>
+    </form>
+  );
+}
+```
+
 #### With server action as parameter
 
 ```tsx
