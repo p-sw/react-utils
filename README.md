@@ -45,8 +45,8 @@ function ClientComponent() {
 }
 ```
 
-> **Note**: keepPrevOnLoad가 false일 때는 isLoading이 false일 때 state가 로드되어 있음이 보장됨.  
-> keepPrevOnLoad가 true일 때는 isLoading의 여부와 상관 없이 state는 `Result | undefined`.
+> **Note**: It is guaranteed that state is loaded when `isLoading` is false with `keepPrevOnLoad` is false.
+> If `keepPrevOnLoad` is true, state is `Result | undefined` regardless of `isLoading`
 
 ### useTransitioned
 
@@ -67,7 +67,7 @@ function Component() {
 
 ### useFormProvider
 
-> FormStatus 컴포넌트와 같이 사용해야 함. useFormStatus & useActionState 훅을 form과 함께 쓸 수 있도록 하는 새로운 훅
+> Should be used with [FormStatus](#formstatus).
 
 #### Without server action as parameter
 
@@ -149,8 +149,11 @@ import { useDialog } from "@worplo/react-utils/hooks";
 
 export function Page() {
   const [
-    Dialog /* dialog 태그를 래핑한 컴포넌트 */,
-    { close, show /* 모든 컨트롤 함수들은 호출 가능 (undefined X) */ },
+    Dialog /* Component wrapped native <dialog> tag */,
+    {
+      close,
+      show /* All control functions are not undefined and callable without optional chain */,
+    },
   ] = useDialog();
 
   return <Dialog></Dialog>;
@@ -161,7 +164,7 @@ export function Page() {
 
 ### FormStatus
 
-> [useFormProvider](#useformprovider) 훅과 같이 사용해야 함.
+> Should be used with [useFormProvider](#useformprovider).
 
 ## Utilities
 
