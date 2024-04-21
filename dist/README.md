@@ -205,21 +205,25 @@ function Component() {
           item.title /* key - used like key props in React - it should be unique and stable */,
           item,
         ])}
-        onInsert={(
-          index /* Index of item to be inserted */,
-          item /* Item to be inserted */,
-          state /* internal state */,
-          insert /* default behavior when this event is not overridden */
-        ) => {
-          console.log(`Item added to toast array: ${item} at ${index}`);
-          insert(index, item, state); // actually changes state
+        onInsert={(e) => {
+          console.log(`Item added to toast array: ${e.item} at ${e.index}`);
+          e.default(e.index, e.item); // default behavior when onInsert is not given - mutate state & automatically prevent default
+          /* or, you can use */
+          e.preventDefault();
+          const [state, setState] = e.state;
+          const newState = [...state];
+          newState.splice(e.index, 0, e.item);
+          setState(newState);
         }}
-        onDelete={(index, state, del) => {
+        onDelete={(e) => {
+          e.preventDefault();
           console.log(
-            `Deleting item from toast array after 350ms: ${state[index]} at ${index}`
+            `Deleting item from toast array after 350ms: ${
+              e.state[e.index]
+            } at ${e.index}`
           );
           setTimeout(() => {
-            del(index, state); // actually changes state
+            e.default(e.index); // In setTimeout, it cannot call preventDefault
           }, 350);
         }}
         sync={setRenderedToast}
