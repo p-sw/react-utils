@@ -108,6 +108,9 @@ export function Map<A>({
           },
           defaultPrevented,
         });
+        if (!defaultPrevented) {
+          defaultAdd(parseInt(index), added);
+        }
       }
 
       if (deleted) {
@@ -125,6 +128,9 @@ export function Map<A>({
           },
           defaultPrevented,
         });
+        if (!defaultPrevented) {
+          defaultDel(parseInt(index));
+        }
       }
     });
   }, [array]);
