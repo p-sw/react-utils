@@ -11,6 +11,7 @@ Small & Simple Utility Package
   - **[useDialog](#useDialog)** - native dialog tag without ref and optional chain calling
 - [Functional Components](#functional-components)
   - **[FormStatus](#FormStatus)** - used for useFormProvider to provide useFormStatus
+  - **[Map](#Map)** - customizable added & deleted event
 - [Utilities](#utilities)
   - **[isPromise](#isPromise)** - check if value is promise or not
 
@@ -165,6 +166,70 @@ export function Page() {
 ### FormStatus
 
 > Should be used with [useFormProvider](#useformprovider).
+
+### Map
+
+> WARNING: Map is not tested yet. Be careful when using it.
+
+```tsx
+import { Map, type MapComponent } from "@worplo/react-utils/fc";
+
+interface Toast {
+  title: string;
+  content: string;
+}
+
+const Toast: MapComponent<Toast> = ({ item: Toast, unsync: boolean }) => {
+  return (
+    <div
+      className="toast"
+      style={{ transition: "opacity 0.3s", opacity: unsync ? 0.5 : 1 }}
+    >
+      {item.title}
+    </div>
+  );
+};
+
+function Component() {
+  const [toast, setToast] = useState<Toast[]>([]);
+  const [renderedToast, setRenderedToast] = useState<Toast[]>([]); // used for getting internal state
+
+  useEffect(() => {
+    console.log(toast, renderedToast);
+  }, [renderedToast]);
+
+  return (
+    <>
+      <Map
+        array={toast.map((item) => [
+          item.title /* key - used like key props in React - it should be unique and stable */,
+          item,
+        ])}
+        onInsert={(
+          index /* Index of item to be inserted */,
+          item /* Item to be inserted */,
+          state /* internal state */,
+          insert /* default behavior when this event is not overridden */
+        ) => {
+          console.log(`Item added to toast array: ${item} at ${index}`);
+          insert(index, item, state); // actually changes state
+        }}
+        onDelete={(index, state, del) => {
+          console.log(
+            `Deleting item from toast array after 350ms: ${state[index]} at ${index}`
+          );
+          setTimeout(() => {
+            del(index, state); // actually changes state
+          }, 350);
+        }}
+        sync={setRenderedToast}
+      >
+        {Toast}
+      </Map>
+    </>
+  );
+}
+```
 
 ## Utilities
 
