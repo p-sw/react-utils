@@ -12,6 +12,7 @@ Small & Simple Utility Package
 - [Functional Components](#functional-components)
   - **[FormStatus](#FormStatus)** - used for useFormProvider to provide useFormStatus
   - **[Map](#Map)** - customizable added & deleted event
+  - **[Switch](#Switch)** - switch-case component
 - [Utilities](#utilities)
   - **[isPromise](#isPromise)** - check if value is promise or not
 
@@ -231,6 +232,18 @@ function Component() {
         {Toast}
       </Map>
     </>
+  );
+}
+```
+
+### Switch
+
+```tsx
+import { Switch } from "@worplo/react-utils/fc";
+
+function Component({ value }: { value: "a" | "b" | "c" }) {
+  return (
+    <Switch value={value} a={<div>a</div>} b={<div>b</div>} c={<div>c</div>} />
   );
 }
 ```
