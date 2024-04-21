@@ -1,6 +1,6 @@
 {
   "name": "@worplo/react-utils",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "A Simple Utilities for React",
   "main": "./lib/index.js",
   "repository": "https://github.com/Worplo/react-utils",
