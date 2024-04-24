@@ -25,25 +25,62 @@ Small & Simple Utility Package
 ```tsx
 import { useLoadedState } from "@worplo/react-utils/hooks";
 
-async function serverActionThatLoadsSomething() {
-  "use server"
-  // ...
+async function loadUsername(userId: number): Promise<string> {
+  "use server";
+  const result = await fetch(`https://example.com/api/username/${userId}`);
+  return result.json();
 }
 
-function ClientComponent() {
-  const [isLoading, state, triggerReload] = useLoadedState(async function loader() {
-    return await serverActionThatLoadsSomething();
-  }, [ /* Dependency Array - it automatically reloads state when dependency changes */ ], {
-    keepPrevOnLoad: false, // default: true
-  })
+async function updateUsername(userId: number, newName: string) {
+  "use server";
+  const result = await fetch(`https://example.com/api/username/${userId}`, {
+    method: "POST",
+    body: JSON.stringify({ name: newName }),
+  });
+  return result.json();
+}
 
-  return <>
+function ClientComponent({ userid }: { userid: number }) {
+  const [isLoading, name, triggerReload, setName] = useLoadedState(
+    async function loader() {
+      return await loadUsername(userid);
+    },
+    [userid /* Dependency Array - automatically reloads state */],
     {
-      isLoading
-        ? <MdiLoading className={"animate-spin"} />
-        : { state.map(() => <>{/*...*/}</>) }
+      keepPrevOnLoad: false, // default: true
     }
-  </>
+  );
+  const [isMutating, startMutation] = useTransition();
+
+  function save() {
+    startMutation(async () => {
+      await updateUsername(userid, name);
+      triggerReload();
+    });
+  }
+
+  return (
+    <>
+      {isLoading ? (
+        <MdiLoading className={"animate-spin"} />
+      ) : (
+        <form>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <button
+            type="button"
+            onClick={save}
+            disabled={isLoading || isMutating}
+          >
+            {isMutating ? "Saving..." : "Save"}
+          </button>
+        </form>
+      )}
+    </>
+  );
 }
 ```
 
