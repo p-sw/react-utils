@@ -3,7 +3,7 @@
     "module": "esnext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "target": "es5",
-    "outDir": "./dist/lib",
+    "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
     "moduleResolution": "node",

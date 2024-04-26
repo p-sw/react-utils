@@ -1,7 +1,7 @@
 {
   "name": "react-utils",
   "version": "0.0.0",
-  "main": "./lib/index.js",
+  "main": "./index.js",
   "repository": "https://github.com/Worplo/react-utils",
   "author": "p-sw <shinwoo.park@psw.kr>",
   "license": "MIT",
@@ -19,8 +19,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "build:clean": "rimraf ./dist/lib ./dist/tsconfig.tsbuildinfo && yarn build",
-    "up": "yarn build:clean && yarn publish dist",
+    "up": "yarn build && yarn publish dist",
     "docs": "rimraf ./dist/README.md && ln ./README.md ./dist/README.md"
   }
 }
