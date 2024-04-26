@@ -18,8 +18,9 @@
     "react-dom": "18"
   },
   "scripts": {
-    "build": "rimraf ./dist/lib && tsc",
-    "up": "yarn build && yarn publish dist",
+    "build": "tsc",
+    "build:clean": "rimraf ./dist/lib ./dist/tsconfig.tsbuildinfo && yarn build",
+    "up": "yarn build:clean && yarn publish dist",
     "docs": "rimraf ./dist/README.md && ln ./README.md ./dist/README.md"
   }
 }
