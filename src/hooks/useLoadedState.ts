@@ -4,13 +4,15 @@ import { isPromise } from "../utils";
 type FLoader<R> = () => R
 
 interface UseLoadedStateOptions<K extends boolean> {
-  keepPrevOnLoad: K;
+  keepPrevOnLoad?: K;
+  preventBurstLoad?: boolean;
 }
 
 type PartialUseLoadedStateOptions<K extends boolean> = Partial<UseLoadedStateOptions<K>>
 
 const defaultOption: UseLoadedStateOptions<true> = {
   keepPrevOnLoad: true,
+  preventBurstLoad: true,
 }
 
 type LoadedStateReturns<R, K extends boolean> =
@@ -36,7 +38,10 @@ type LoadedStateReturns<R, K extends boolean> =
   ]
 
 export function useLoadedState<R, K extends boolean = true>(loader: FLoader<R>, deps: React.DependencyList, opt?: PartialUseLoadedStateOptions<K>): LoadedStateReturns<Awaited<R>, K> {
-  const defaultedOpt = (opt ?? defaultOption) as UseLoadedStateOptions<K>;
+  const defaultedOpt = {
+    keepPrevOnLoad: (opt?.keepPrevOnLoad ?? defaultOption.keepPrevOnLoad),
+    preventBurstLoad: (opt?.preventBurstLoad ?? defaultOption.preventBurstLoad),
+  } as Required<UseLoadedStateOptions<K>>;
 
   const [state, setState] = useState<Awaited<R> | undefined>(undefined);
   const [isLoading, startLoad] = useTransition();
@@ -44,6 +49,9 @@ export function useLoadedState<R, K extends boolean = true>(loader: FLoader<R>, 
   function loadState() {
     if (!defaultedOpt.keepPrevOnLoad)
       setState(undefined);
+    if (defaultedOpt.preventBurstLoad && isLoading)
+      return;
+
     startLoad(() => {
       const result: R = loader()
       if (isPromise(loader)) {
