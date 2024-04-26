@@ -35,10 +35,10 @@ type LoadedStateReturns<R, K extends boolean> =
     Dispatch<SetStateAction<R | undefined>>
   ]
 
-export function useLoadedState<R, K extends boolean = true>(loader: FLoader<R>, deps: React.DependencyList, opt?: PartialUseLoadedStateOptions<K>): LoadedStateReturns<R, K> {
+export function useLoadedState<R, K extends boolean = true>(loader: FLoader<R>, deps: React.DependencyList, opt?: PartialUseLoadedStateOptions<K>): LoadedStateReturns<Awaited<R>, K> {
   const defaultedOpt = (opt ?? defaultOption) as UseLoadedStateOptions<K>;
 
-  const [state, setState] = useState<R | undefined>(undefined);
+  const [state, setState] = useState<Awaited<R> | undefined>(undefined);
   const [isLoading, startLoad] = useTransition();
 
   function loadState() {
@@ -48,10 +48,10 @@ export function useLoadedState<R, K extends boolean = true>(loader: FLoader<R>, 
       const result: R = loader()
       if (isPromise(loader)) {
         (<{ then: (c: (p: R) => void) => void }>result)['then']((p: R) => {
-          setState(p);
+          setState(p as Awaited<R>);
         })
       } else {
-        setState(result);
+        setState(result as Awaited<R>);
       }
     })
   }
@@ -82,6 +82,6 @@ export function useLoadedState<R, K extends boolean = true>(loader: FLoader<R>, 
       state,
       loadState,
       setState,
-    ] as LoadedStateReturns<R, false>
+    ] as LoadedStateReturns<Awaited<R>, false>
   }
 }
