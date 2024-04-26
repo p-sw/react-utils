@@ -5,6 +5,7 @@ import {
   useCallback,
   useRef,
 } from "react";
+import React from "react";
 
 type DialogProps = Omit<
   DetailedHTMLProps<DialogHTMLAttributes<HTMLDialogElement>, HTMLDialogElement>,

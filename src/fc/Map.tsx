@@ -6,6 +6,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import React from "react";
 
 type Entry<A> = [string | number, A];
 
