@@ -48,6 +48,7 @@ function ClientComponent({ userid }: { userid: number }) {
     [userid /* Dependency Array - automatically reloads state */],
     {
       keepPrevOnLoad: false, // default: true
+      preventBurstLoad: true, // default: true
     }
   );
   const [isMutating, startMutation] = useTransition();
