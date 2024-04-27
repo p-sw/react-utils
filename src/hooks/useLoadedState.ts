@@ -91,17 +91,17 @@ export function useLoadedState<R, K extends boolean = true>(loader: FLoader<R>, 
   }, [loadQueue.current.length, isLoading])
 
   if (defaultedOpt.keepPrevOnLoad) {
-    if (isLoading || !state) {
+    if (isLoading) {
       return [
-        true,
+        isLoading,
         undefined,
         queueProvider,
         setState,
       ]
     } else {
       return [
-        false,
-        state,
+        isLoading,
+        state as Awaited<R>,
         queueProvider,
         setState,
       ]
