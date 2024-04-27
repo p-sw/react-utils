@@ -49,6 +49,7 @@ function ClientComponent({ userid }: { userid: number }) {
     {
       keepPrevOnLoad: false, // default: true
       preventBurstLoad: true, // default: true
+      processQueue: true, // default: true
     }
   );
   const [isMutating, startMutation] = useTransition();
