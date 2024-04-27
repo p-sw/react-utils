@@ -6,6 +6,7 @@ type FLoader<R> = () => R
 interface UseLoadedStateOptions<K extends boolean> {
   keepPrevOnLoad?: K;
   preventBurstLoad?: boolean;
+  processQueue?: boolean;
 }
 
 type PartialUseLoadedStateOptions<K extends boolean> = Partial<UseLoadedStateOptions<K>>
@@ -13,6 +14,7 @@ type PartialUseLoadedStateOptions<K extends boolean> = Partial<UseLoadedStateOpt
 const defaultOption: UseLoadedStateOptions<true> = {
   keepPrevOnLoad: true,
   preventBurstLoad: true,
+  processQueue: true,
 }
 
 type LoadedStateReturns<R, K extends boolean> =
@@ -41,6 +43,7 @@ export function useLoadedState<R, K extends boolean = true>(loader: FLoader<R>, 
   const defaultedOpt = {
     keepPrevOnLoad: (opt?.keepPrevOnLoad ?? defaultOption.keepPrevOnLoad),
     preventBurstLoad: (opt?.preventBurstLoad ?? defaultOption.preventBurstLoad),
+    processQueue: (opt?.processQueue ?? defaultOption.processQueue),
   } as Required<UseLoadedStateOptions<K>>;
 
   const [state, setState] = useState<Awaited<R> | undefined>(undefined);
