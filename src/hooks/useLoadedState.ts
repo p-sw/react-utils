@@ -1,4 +1,4 @@
-import { useState, useTransition, useEffect, Dispatch, SetStateAction } from "react";
+import { useState, useTransition, useEffect, Dispatch, SetStateAction, useRef } from "react";
 import { isPromise } from "../utils";
 
 type FLoader<R> = () => R
@@ -48,12 +48,11 @@ export function useLoadedState<R, K extends boolean = true>(loader: FLoader<R>, 
 
   const [state, setState] = useState<Awaited<R> | undefined>(undefined);
   const [isLoading, startLoad] = useTransition();
+  const loadQueue = useRef<(() => void)[]>([]);
 
   function loadState() {
     if (!defaultedOpt.keepPrevOnLoad)
       setState(undefined);
-    if (defaultedOpt.preventBurstLoad && isLoading)
-      return;
 
     startLoad(() => {
       const result: R = loader()
@@ -67,9 +66,29 @@ export function useLoadedState<R, K extends boolean = true>(loader: FLoader<R>, 
     })
   }
 
+  function queueProvider() {
+    if (defaultedOpt.preventBurstLoad && isLoading) {
+      if (defaultedOpt.processQueue) {
+        loadQueue.current.push(loadState);
+      }
+    } else if (defaultedOpt.processQueue && loadQueue.current.length > 0) {
+      loadQueue.current.push(loadState);
+    } else {
+      loadState();
+    }
+  }
+
   useEffect(() => {
-    loadState();
+    queueProvider();
   }, deps);
+
+  useEffect(() => {
+    /* QueueConsumer */
+    if (defaultedOpt.processQueue && loadQueue.current.length > 0 && !isLoading) {
+      const nextLoad = loadQueue.current.shift();
+      if (nextLoad) nextLoad();
+    }
+  }, [loadQueue.current.length, isLoading])
 
   if (defaultedOpt.keepPrevOnLoad) {
     if (isLoading || !state) {
