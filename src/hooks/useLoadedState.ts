@@ -95,14 +95,14 @@ export function useLoadedState<R, K extends boolean = true>(loader: FLoader<R>, 
       return [
         true,
         undefined,
-        loadState,
+        queueProvider,
         setState,
       ]
     } else {
       return [
         false,
         state,
-        loadState,
+        queueProvider,
         setState,
       ]
     }
@@ -110,7 +110,7 @@ export function useLoadedState<R, K extends boolean = true>(loader: FLoader<R>, 
     return [
       isLoading,
       state,
-      loadState,
+      queueProvider,
       setState,
     ] as LoadedStateReturns<Awaited<R>, false>
   }
